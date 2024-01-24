@@ -9,37 +9,37 @@ import (
 // borrowed from: https://go.dev/src/net/example_test.go
 func ExampleListener() {
 
-	// Listen on TCP port 2000 on all available unicast and
-	// anycast IP addresses of the local system.
-	l, err := net.Listen("tcp", ":2000")
+  // Listen on TCP port 2000 on all available unicast and
+  // anycast IP addresses of the local system.
+  l, err := net.Listen("tcp", ":2000")
 
-	if err != nil {
-		log.Fatal(err)
-	}
+  if err != nil {
+    log.Fatal(err)
+  }
 
-	defer l.Close()
+  defer l.Close()
 
-	for {
+  for {
 
-		// Wait for a connection.
-		conn, err := l.Accept()
+    // Wait for a connection.
+    conn, err := l.Accept()
 
-		if err != nil {
-			log.Fatal(err)
-		}
+    if err != nil {
+      log.Fatal(err)
+    }
 
-		// Handle the connection in a new goroutine.
-		// The loop then returns to accepting, so that
-		// multiple connections may be served concurrently.
-		go func(c net.Conn) {
+    // Handle the connection in a new goroutine.
+    // The loop then returns to accepting, so that
+    // multiple connections may be served concurrently.
+    go func(c net.Conn) {
 
-			// Echo all incoming data.
-			io.Copy(c, c)
+      // Echo all incoming data.
+      io.Copy(c, c)
 
-			// Shut down the connection.
-			c.Close()
-		}(conn)
-	}
+      // Shut down the connection.
+      c.Close()
+    }(conn)
+  }
 }
 
 func main() {
