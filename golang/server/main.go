@@ -4,6 +4,7 @@ import (
   "net"
   "log"
   "io"
+  "fmt"
 )
 
 // borrowed from: https://go.dev/src/net/example_test.go
@@ -32,6 +33,14 @@ func ExampleListener() {
     // The loop then returns to accepting, so that
     // multiple connections may be served concurrently.
     go func(c net.Conn) {
+
+      buf, err := io.ReadAll(c)
+
+      if err != nil {
+        log.Fatal(err)
+      }
+
+      fmt.Printf("Received: %s\n", buf)
 
       // Echo all incoming data.
       io.Copy(c, c)
